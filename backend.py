@@ -1,37 +1,23 @@
 from fastapi import UploadFile
 import os
-from typing import Any, Annotated
+from typing import Any
 import fitz  # type:ignore
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from enum import StrEnum
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import AIMessage, AnyMessage, HumanMessage, ToolMessage
-from langgraph.graph.message import add_messages
+
 
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.docstore.document import Document
 from logger import logger
-from pydantic import BaseModel
 from langgraph.graph.state import CompiledStateGraph
-from langgraph.graph import END, StateGraph
 from langchain_core.runnables.config import RunnableConfig
-from tools import (
-    tool_retrieve,
-    tool_search,
-    retrieve,
-    search,
-    query,
-    tool_query,
-    summarizer,
-    doc_related,
-    tool_summary,
-    tool_doc_related,
-)
-from prompts import AGENT_PROMPT, ASK_AGENT_PROMPT, REFOMRULATE_PROMPT
+from prompts import REFOMRULATE_PROMPT
 from memory import Memory
 from main_graph import build_graph, State
+from config import MODEL_NAME, TEMPERATURE, BASE_URL, API_KEY
 
 KNOWLEDGE_RAG_DIR = "knowledges"
 EMBED_MODEL = HuggingFaceEmbeddings(
@@ -129,10 +115,10 @@ async def reformulate_question(state: State):
     if not state.messages:
         return {"question": state.question}
     model = ChatOpenAI(
-        model="qwen2.5:7b",
-        temperature=0,
-        base_url="http://localhost:11434/v1",
-        api_key="ollama",  # type:ignore
+        model=MODEL_NAME,
+        temperature=TEMPERATURE,
+        base_url=BASE_URL,
+        api_key=API_KEY,  # type:ignore
     )
 
     if model is None:

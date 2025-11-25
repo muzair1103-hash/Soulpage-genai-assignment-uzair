@@ -9,10 +9,17 @@ from prompts import SEARCH_PROMPT, SUMMARIZER_PROMPT
 from langchain_core.messages import ToolMessage
 from langchain_core.runnables.config import RunnableConfig
 import os
+from config import MODEL_NAME, TEMPERATURE, BASE_URL, API_KEY
 
 import fitz  # type:ignore
+from dotenv import load_dotenv
+import os
 
-tavily_client = TavilyClient(api_key="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")
+load_dotenv()
+
+tavily_api_key = os.getenv("TAVILY_API_KEY")
+
+tavily_client = TavilyClient(api_key=tavily_api_key)
 
 
 class BasicToolNode:
@@ -123,10 +130,10 @@ async def search(
     logger.info("Search Tool Triggered")
     search_results = tavily_client.search(question)
     model = ChatOpenAI(
-        model="qwen2.5:7b",
-        temperature=0,
-        base_url="http://localhost:11434/v1",
-        api_key="ollama",  # type:ignore
+        model=MODEL_NAME,
+        temperature=TEMPERATURE,
+        base_url=BASE_URL,
+        api_key=API_KEY,  # type:ignore
     )
     if model is None:
         raise RuntimeError("Model not available ")
@@ -153,10 +160,10 @@ async def summarizer(
 
     logger.info("Summarizer Tool Triggered")
     model = ChatOpenAI(
-        model="qwen2.5:7b",
-        temperature=0,
-        base_url="http://localhost:11434/v1",
-        api_key="ollama",  # type:ignore
+        model=MODEL_NAME,
+        temperature=TEMPERATURE,
+        base_url=BASE_URL,
+        api_key=API_KEY,  # type:ignore
     )
     if model is None:
         raise RuntimeError("Model not available ")
@@ -205,10 +212,10 @@ async def doc_related(
     """
     logger.info("Doc related Tool Triggered")
     model = ChatOpenAI(
-        model="qwen2.5:7b",
-        temperature=0,
-        base_url="http://localhost:11434/v1",
-        api_key="ollama",  # type:ignore
+        model=MODEL_NAME,
+        temperature=TEMPERATURE,
+        base_url=BASE_URL,
+        api_key=API_KEY,  # type:ignore
     )
     if model is None:
         raise RuntimeError("Model not available ")

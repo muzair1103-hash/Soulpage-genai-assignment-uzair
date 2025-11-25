@@ -18,6 +18,7 @@ from tools import (
 )
 from prompts import ASK_AGENT_PROMPT
 from backend import get_sratchpad_from_messages
+from config import MODEL_NAME, TEMPERATURE, BASE_URL, API_KEY
 
 
 class AskState(BaseModel):
@@ -55,10 +56,10 @@ async def post_processor_ask(state: AskState):
 
 async def ask_agent(state: AskState):
     model = ChatOpenAI(
-        model="qwen2.5:7b",
-        temperature=0,
-        base_url="http://localhost:11434/v1",
-        api_key="ollama",  # type:ignore
+        model=MODEL_NAME,
+        temperature=TEMPERATURE,
+        base_url=BASE_URL,
+        api_key=API_KEY,  # type:ignore
     )
     if model is None:
         raise RuntimeError("Model not available ")
