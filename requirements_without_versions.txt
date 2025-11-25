@@ -1,0 +1,15 @@
+uvicorn
+fastapi
+pymupdf
+frontend
+tools
+langchain
+langchain-huggingface
+langchain-community
+sentence-transformers
+python-multipart
+faiss-cpu
+langchain-openai
+tavily
+psycopg
+langgraph-checkpoint-postgres
