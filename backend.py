@@ -162,6 +162,7 @@ async def ask(knowledge_name: str, user_id: str, query: str) -> str:
             "question": query,
             "docs": [],
             "user_id": user_id,
+            "answer": None,
         },
         config=config,
     )
