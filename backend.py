@@ -17,7 +17,7 @@ from langchain_core.runnables.config import RunnableConfig
 from prompts import REFOMRULATE_PROMPT
 from memory import Memory
 from main_graph import build_graph, State
-from config import MODEL_NAME, TEMPERATURE, BASE_URL, API_KEY
+from settings import settings
 
 KNOWLEDGE_RAG_DIR = "knowledges"
 EMBED_MODEL = HuggingFaceEmbeddings(
@@ -115,10 +115,10 @@ async def reformulate_question(state: State):
     if not state.messages:
         return {"question": state.question}
     model = ChatOpenAI(
-        model=MODEL_NAME,
-        temperature=TEMPERATURE,
-        base_url=BASE_URL,
-        api_key=API_KEY,  # type:ignore
+        model=settings.models_settings.MODEL_NAME,
+        temperature=settings.models_settings.TEMPERATURE,
+        base_url=settings.models_settings.BASE_URL,
+        api_key=settings.models_settings.API_KEY,  # type:ignore
     )
 
     if model is None:

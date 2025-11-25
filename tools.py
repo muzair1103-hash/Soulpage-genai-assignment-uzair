@@ -9,7 +9,7 @@ from prompts import SEARCH_PROMPT, SUMMARIZER_PROMPT
 from langchain_core.messages import ToolMessage
 from langchain_core.runnables.config import RunnableConfig
 import os
-from config import MODEL_NAME, TEMPERATURE, BASE_URL, API_KEY
+from settings import settings
 
 import fitz  # type:ignore
 from dotenv import load_dotenv
@@ -130,10 +130,10 @@ async def search(
     logger.info("Search Tool Triggered")
     search_results = tavily_client.search(question)
     model = ChatOpenAI(
-        model=MODEL_NAME,
-        temperature=TEMPERATURE,
-        base_url=BASE_URL,
-        api_key=API_KEY,  # type:ignore
+        model=settings.models_settings.MODEL_NAME,
+        temperature=settings.models_settings.TEMPERATURE,
+        base_url=settings.models_settings.BASE_URL,
+        api_key=settings.models_settings.API_KEY,  # type:ignore
     )
     if model is None:
         raise RuntimeError("Model not available ")
@@ -160,10 +160,10 @@ async def summarizer(
 
     logger.info("Summarizer Tool Triggered")
     model = ChatOpenAI(
-        model=MODEL_NAME,
-        temperature=TEMPERATURE,
-        base_url=BASE_URL,
-        api_key=API_KEY,  # type:ignore
+        model=settings.models_settings.MODEL_NAME,
+        temperature=settings.models_settings.TEMPERATURE,
+        base_url=settings.models_settings.BASE_URL,
+        api_key=settings.models_settings.API_KEY,  # type:ignore
     )
     if model is None:
         raise RuntimeError("Model not available ")
@@ -212,10 +212,10 @@ async def doc_related(
     """
     logger.info("Doc related Tool Triggered")
     model = ChatOpenAI(
-        model=MODEL_NAME,
-        temperature=TEMPERATURE,
-        base_url=BASE_URL,
-        api_key=API_KEY,  # type:ignore
+        model=settings.models_settings.MODEL_NAME,
+        temperature=settings.models_settings.TEMPERATURE,
+        base_url=settings.models_settings.BASE_URL,
+        api_key=settings.models_settings.API_KEY,  # type:ignore
     )
     if model is None:
         raise RuntimeError("Model not available ")

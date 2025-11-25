@@ -11,10 +11,13 @@
 3. **Install the packages**
    `pip install -r requirements.txt`
 
-4. **Run the app**
+4. **Add the Tavily API Key as environment variable**
+   In your .env place "TAVILY_API_KEY=tvly-......"
+   
+5. **Run the app**
    `uvicorn main:app --port 8000 --host localhost`
 
-5. **Run the Streamlit UI**
+6. **Run the Streamlit UI**
    `streamlit run app.py`
 
 ---
